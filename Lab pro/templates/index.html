@@ -1,0 +1,79 @@
+         <!DOCTYPE html>
+            <html>
+            <head>
+                <title>AI Chatbot</title>
+                <style>
+                    body { font-family: Arial, sans-serif; margin: 2em; background-color: #f4f4f9; }
+                    .tabs a { margin-right: 20px; text-decoration: none; font-weight: bold; color: #333; }
+                    .active { color: blue; }
+                    .message { margin-bottom: 10px; padding: 10px; border-radius: 5px; }
+                    .bot { color: green; background-color: #e0f7fa; }
+                    .user { color: navy; background-color: #c8e6c9; }
+                    .irrelavant { color: red; font-weight: bold; }
+                    input[type="text"] { padding: 10px; width: 70%; font-size: 16px; margin-right: 10px; border-radius: 5px; }
+                    button { padding: 10px 20px; font-size: 16px; background-color: #4caf50; color: white; border: none; border-radius: 5px; cursor: pointer; }
+                    button:hover { background-color: #45a049; }
+                </style>
+            </head>
+            <body>
+            
+                <div class="tabs">
+                    <a href="/" class="{{ 'active' if active_tab == 'chatbot' else '' }}">💬 Chatbot</a>
+                    <a href="/history" class="{{ 'active' if active_tab == 'history' else '' }}">📜 History</a>
+                    <a href="/about" class="{{ 'active' if active_tab == 'about' else '' }}">💡 About</a>
+                </div>
+            
+                {% if active_tab == 'about' %}
+                <h2>🤖 Project Overview: AI-Powered Conversational Chatbot Using Flask</h2>
+                <p>This project demonstrates the development of an AI-powered chatbot utilizing DialoGPT, a conversational language model by Microsoft. The chatbot leverages Flask, a lightweight Python web framework, to enable real-time interactions with users through a web-based interface. The goal is to enhance user experiences by providing a conversational agent that adapts to context and generates relevant, intelligent responses.</p>
+                 <h2>🔍 Key Features</h2>
+                 <p>Real-Time Interaction
+                    A Flask-based API handles user input and chatbot responses in real time, allowing for seamless conversations.
+                    
+                    Context-Aware Conversations
+                    The chatbot generates responses using DialoGPT, ensuring relevant and coherent dialogues based on the current conversation context.
+                    
+                    Word Prediction
+                    The model predicts the next word or response, enabling smoother and more natural conversations.
+                    
+                    Persistent Conversation History
+                    User interactions are stored during the session, allowing the chatbot to maintain continuity in its responses.
+                    
+                    Web Interface with Flask
+                    Flask serves as the backend for handling HTTP requests, routing, and rendering the chatbot interface.
+                    
+                    Streamlined Deployment
+                    Flask, combined with HTML and JavaScript, provides a user-friendly front-end interface, while the chatbot model operates as a backend service, ensuring fast response times.</p>
+                    <h2>🌟 Significance</h2>
+                    <p>This project showcases the power of transformer-based models (like DialoGPT) and how they can be integrated with Flask to create interactive, intelligent conversational agents. It highlights the practical application of AI in creating real-time, web-based dialogue systems that can be deployed for various uses, including customer service, virtual assistants, and educational tools.</p>
+                {% elif active_tab == 'history' %}
+                    <h2>📜 Conversation History</h2>
+                    {% for speaker, message in conversation %}
+                        <div class="message"><strong class="{{ speaker|lower }}">{{ speaker }}:</strong> {{ message }}</div>
+                    {% endfor %}
+                    {% if not conversation %}
+                        <p>No conversation yet.</p>
+                    {% endif %}
+                {% else %}
+                    <h2>💬 Chatbot</h2>
+                    <form method="post">
+                        <input type="text" name="user_input" placeholder="Type your message..." required autofocus>
+                        <button type="submit">Send</button>
+                    </form>
+            
+                    {% if suggestion %}
+                        <p>💡 <strong>Suggested next word:</strong> {{ suggestion }}</p>
+                    {% endif %}
+            
+                    {% if response %}
+                        <p><strong class="bot">Bot:</strong> {{ response }}</p>
+                    {% endif %}
+            
+                    {% if response == "Irrelevant input. Please try again." %}
+                        <p class="irrelavant">The bot couldn't process your input. Please rephrase or ask something different.</p>
+                    {% endif %}
+                {% endif %}
+            
+            </body>
+            </html>
+            
